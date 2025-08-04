@@ -57,19 +57,16 @@ interface DepartmentMetrics {
 const Estatisticas: React.FC = () => {
   console.log('Estatisticas component is rendering');
 
-  // Estados para os modais
   const [showOEEModal, setShowOEEModal] = useState(false);
   const [showEfficiencyModal, setShowEfficiencyModal] = useState(false);
   const [showDepartmentModal, setShowDepartmentModal] = useState(false);
   const [selectedMetric, setSelectedMetric] = useState<any>(null);
   const [metricType, setMetricType] = useState<'oee' | 'efficiency' | 'department'>('oee');
 
-  // Estados para filtros
   const [filterDate, setFilterDate] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterDepartment, setFilterDepartment] = useState('all');
 
-  // Dados mockados
   const machineOEEData: MachineOEE[] = [
     {
       id: 1,
@@ -157,7 +154,6 @@ const Estatisticas: React.FC = () => {
     }
   ];
 
-  // Configuração dos campos para OEE
   const oeeFields: FormFieldConfig[] = [
     {
       name: 'machineId',
@@ -232,7 +228,6 @@ const Estatisticas: React.FC = () => {
     }
   ];
 
-  // Configuração dos campos para Eficiência
   const efficiencyFields: FormFieldConfig[] = [
     {
       name: 'employeeId',
@@ -300,7 +295,6 @@ const Estatisticas: React.FC = () => {
     }
   ];
 
-  // Configuração dos campos para Departamento
   const departmentMetricsFields: FormFieldConfig[] = [
     {
       name: 'departmentId',
@@ -368,7 +362,6 @@ const Estatisticas: React.FC = () => {
     }
   ];
 
-  // Funções de submissão
   const handleSubmitOEE = (data: Record<string, any>) => {
     console.log('Dados OEE:', data);
     setShowOEEModal(false);
@@ -384,7 +377,6 @@ const Estatisticas: React.FC = () => {
     setShowDepartmentModal(false);
   };
 
-  // Funções auxiliares
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'operating':
@@ -438,7 +430,6 @@ const Estatisticas: React.FC = () => {
             subtitle="Cadastro e acompanhamento de indicadores de performance"
           />
 
-          {/* Cards de Resumo */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="shadow-lg">
               <CardContent className="p-6">
@@ -501,7 +492,6 @@ const Estatisticas: React.FC = () => {
             </Card>
           </div>
 
-          {/* Botões de Ação */}
           <Card className="mb-6 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -555,7 +545,6 @@ const Estatisticas: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Filtros */}
           <FilterPanel
             title="Filtros Avançados"
             filters={{
@@ -603,7 +592,6 @@ const Estatisticas: React.FC = () => {
             className="mb-6"
           />
 
-          {/* Seção OEE das Máquinas */}
           <Card className="mb-6 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -647,7 +635,6 @@ const Estatisticas: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Seção Eficiência dos Funcionários */}
           <Card className="mb-6 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -692,7 +679,6 @@ const Estatisticas: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Seção Métricas dos Departamentos */}
           <Card className="mb-6 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -737,7 +723,6 @@ const Estatisticas: React.FC = () => {
           </Card>
         </div>
 
-        {/* Modal OEE */}
         <CUDModal
           open={showOEEModal}
           onClose={() => setShowOEEModal(false)}
@@ -749,7 +734,6 @@ const Estatisticas: React.FC = () => {
           entityType="department"
         />
 
-        {/* Modal Eficiência */}
         <CUDModal
           open={showEfficiencyModal}
           onClose={() => setShowEfficiencyModal(false)}
@@ -761,7 +745,6 @@ const Estatisticas: React.FC = () => {
           entityType="department"
         />
 
-        {/* Modal Departamento */}
         <CUDModal
           open={showDepartmentModal}
           onClose={() => setShowDepartmentModal(false)}
