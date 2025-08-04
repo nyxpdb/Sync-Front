@@ -91,7 +91,6 @@ const Dashboard: React.FC = () => {
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Dados para gráficos 3D
   const chartData = {
     production: [
       { label: 'Jan', value: 1200, color: '#3B82F6' },
@@ -151,7 +150,6 @@ const Dashboard: React.FC = () => {
       <Header />
       <main className="flex-1 w-full px-4 md:px-10 py-8 flex flex-col items-center bg-gradient-to-br from-[var(--bg)] via-[var(--accent)] to-[var(--primary)/10]">
         <div className="w-full max-w-7xl">
-          {/* Header do Dashboard */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-[var(--primary)] mb-2">Dashboard</h1>
             <p className="text-[var(--muted)] mb-4">Visão geral do sistema de produção</p>
@@ -167,7 +165,6 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Estatísticas Principais */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="shadow-lg">
               <CardContent className="p-6">
@@ -242,7 +239,6 @@ const Dashboard: React.FC = () => {
             </Card>
           </div>
 
-          {/* Estatísticas Secundárias */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="shadow-lg">
               <CardContent className="p-6">
@@ -284,7 +280,6 @@ const Dashboard: React.FC = () => {
             </Card>
           </div>
 
-          {/* Gráficos */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <BasicChart
               title="Produção Mensal"
@@ -306,9 +301,7 @@ const Dashboard: React.FC = () => {
             />
           </div>
 
-          {/* Atividades Recentes e Ações Rápidas */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Atividades Recentes */}
             <div className="lg:col-span-2">
               <Card className="shadow-lg">
                 <CardContent className="p-6">
@@ -370,7 +363,6 @@ const Dashboard: React.FC = () => {
               </Card>
             </div>
 
-            {/* Ações Rápidas */}
             <div>
               <Card className="shadow-lg">
                 <CardContent className="p-6">
