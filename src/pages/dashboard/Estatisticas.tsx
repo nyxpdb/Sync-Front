@@ -12,6 +12,7 @@ import type { FormFieldConfig } from '../../components/forms/CUDModal';
 import FilterPanel from '../../components/forms/FilterPanel';
 import MetricsCard from '../../components/data/MetricsCard';
 
+
 interface MachineOEE {
   id: number;
   machineId: number;
