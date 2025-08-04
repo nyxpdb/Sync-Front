@@ -42,7 +42,6 @@ const Departamentos: React.FC = () => {
   const [selectedDepartmentForEdit, setSelectedDepartmentForEdit] = useState<Department | null>(null);
   const [showSectorModal, setShowSectorModal] = useState(false);
 
-  // Configuração dos campos do formulário
   const departmentFields: FormFieldConfig[] = [
     {
       name: 'name',
@@ -102,7 +101,6 @@ const Departamentos: React.FC = () => {
     setShowFormModal(false);
   };
 
-  // Configuração dos campos do formulário de setor
   const sectorFields: FormFieldConfig[] = [
     {
       name: 'name',
@@ -337,7 +335,6 @@ const Departamentos: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Estatísticas */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="shadow-lg">
               <CardContent className="p-6">
@@ -400,7 +397,6 @@ const Departamentos: React.FC = () => {
             </Card>
           </div>
 
-          {/* Grid de Departamentos */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDepartments.map((department) => (
               <Card key={department.id} className="shadow-lg border-0 bg-gradient-to-br from-white to-[var(--accent)] hover:shadow-xl transition-all duration-300 transform hover:scale-105">
@@ -465,7 +461,6 @@ const Departamentos: React.FC = () => {
           </div>
         </div>
 
-        {/* Modal de Detalhes */}
         <Dialog
           open={!!selectedDepartment}
           onClose={() => setSelectedDepartment(null)}
@@ -638,7 +633,6 @@ const Departamentos: React.FC = () => {
           )}
         </Dialog>
 
-        {/* Modal de Formulário */}
         <CUDModal
           open={showFormModal}
           onClose={() => setShowFormModal(false)}
@@ -650,7 +644,6 @@ const Departamentos: React.FC = () => {
           entityType="department"
         />
 
-        {/* Modal de Novo Setor */}
         <CUDModal
           open={showSectorModal}
           onClose={() => setShowSectorModal(false)}
