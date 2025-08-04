@@ -1,0 +1,291 @@
+import React, { useState } from "react";
+import AuthenticatedHeader from "./Header";
+import PageHeader from "./PageHeader";
+import FilterCard from "./FilterCard";
+import StatisticsGrid from "./StatisticsGrid";
+import EntityGrid from "./EntityGrid";
+import SearchFilter from "./SearchFilter";
+import SelectFilter from "./SelectFilter";
+import Modal from "./Modal";
+import ActionButton from "./ActionButton";
+import PerformanceCircle from "./PerformanceCircle";
+import StatusChip from "./StatusChip";
+import { Avatar } from '@mui/material';
+import { FaUsers, FaUserTie, FaChartLine, FaBuilding, FaPlus, FaEdit, FaEye } from 'react-icons/fa';
+
+// Dados mockados (mantidos do original)
+const employeesData = [
+  {
+    id: 1,
+    photo: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Ethan Harper",
+    role: "Production Manager",
+    department: "Manufacturing",
+    performance: 85,
+    status: "Active",
+    shift: "Manhã",
+  },
+  // ... outros funcionários
+];
+
+const FuncionariosRefactored: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterDepartment, setFilterDepartment] = useState("all");
+  const [filterShift, setFilterShift] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [selectedEmployee, setSelectedEmployee] = useState<typeof employeesData[0] | null>(null);
+  const [showEmployeeModal, setShowEmployeeModal] = useState(false);
+
+  // Filtros
+  const departments = [...new Set(employeesData.map(emp => emp.department))];
+  const shifts = [...new Set(employeesData.map(emp => emp.shift))];
+  const statuses = [...new Set(employeesData.map(emp => emp.status))];
+
+  // Estatísticas
+  const totalEmployees = employeesData.length;
+  const activeEmployees = employeesData.filter(emp => emp.status === "Active").length;
+  const averagePerformance = Math.round(employeesData.reduce((sum, emp) => sum + emp.performance, 0) / employeesData.length);
+
+  const statistics = [
+    {
+      title: "Total de Funcionários",
+      value: totalEmployees.toString(),
+      icon: <FaUsers />,
+      color: "blue" as const,
+      trend: { value: "+3 este mês", direction: "up" as const }
+    },
+    {
+      title: "Funcionários Ativos",
+      value: activeEmployees.toString(),
+      icon: <FaUserTie />,
+      color: "green" as const,
+      trend: { value: `${Math.round((activeEmployees/totalEmployees)*100)}% da equipe`, direction: "up" as const }
+    },
+    {
+      title: "Performance Média",
+      value: `${averagePerformance}%`,
+      icon: <FaChartLine />,
+      color: "yellow" as const,
+      trend: { value: "+2.1% vs mês anterior", direction: "up" as const }
+    },
+    {
+      title: "Departamentos",
+      value: departments.length.toString(),
+      icon: <FaBuilding />,
+      color: "purple" as const,
+      trend: { value: "Distribuídos", direction: "up" as const }
+    }
+  ];
+
+  // Filtros
+  const filterOptions = {
+    departments: departments.map(dept => ({ value: dept, label: dept })),
+    shifts: shifts.map(shift => ({ value: shift, label: shift })),
+    statuses: statuses.map(status => ({ value: status, label: status }))
+  };
+
+  // Entidades para o grid
+  const entities = employeesData
+    .filter((emp) => {
+      const matchesSearch = emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          emp.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          emp.department.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesDepartment = filterDepartment === "all" || emp.department === filterDepartment;
+      const matchesShift = filterShift === "all" || emp.shift === filterShift;
+      const matchesStatus = filterStatus === "all" || emp.status === filterStatus;
+      
+      return matchesSearch && matchesDepartment && matchesShift && matchesStatus;
+    })
+    .map(emp => ({
+      id: emp.id,
+      title: emp.name,
+      subtitle: emp.role,
+      description: emp.department,
+      image: emp.photo,
+      status: emp.status,
+      metrics: [
+        { label: "Performance", value: emp.performance, unit: "%" },
+        { label: "Turno", value: emp.shift }
+      ]
+    }));
+
+  // Ações para os cards
+  const cardActions = [
+    {
+      icon: <FaEye />,
+      label: "Ver",
+      action: "view"
+    },
+    {
+      icon: <FaEdit />,
+      label: "Editar",
+      action: "edit"
+    }
+  ];
+
+  const handleEntityClick = (entity: any) => {
+    const employee = employeesData.find(emp => emp.id === entity.id);
+    if (employee) {
+      setSelectedEmployee(employee);
+      setShowEmployeeModal(true);
+    }
+  };
+
+  const handleEntityAction = (entity: any, action: string) => {
+    const employee = employeesData.find(emp => emp.id === entity.id);
+    if (action === "view" && employee) {
+      setSelectedEmployee(employee);
+      setShowEmployeeModal(true);
+    } else if (action === "edit") {
+      console.log('Editar:', employee?.name);
+    }
+  };
+
+  return (
+    <div className="w-screen min-h-screen flex flex-col bg-white">
+      <AuthenticatedHeader />
+      <main className="flex-1 w-full px-4 md:px-10 py-8 flex flex-col items-center bg-gradient-to-br from-[var(--bg)] via-[var(--accent)] to-[var(--primary)/10] fade-in">
+        <div className="w-full max-w-7xl">
+          <PageHeader 
+            title="Funcionários"
+            subtitle="Gestão e acompanhamento da equipe de produção"
+          />
+
+          <FilterCard title="Filtros e Busca">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <SearchFilter
+                value={searchTerm}
+                onChange={setSearchTerm}
+                placeholder="Buscar funcionários..."
+                fullWidth
+              />
+              
+              <SelectFilter
+                value={filterDepartment}
+                onChange={setFilterDepartment}
+                label="Departamento"
+                options={filterOptions.departments}
+              />
+
+              <SelectFilter
+                value={filterShift}
+                onChange={setFilterShift}
+                label="Turno"
+                options={filterOptions.shifts}
+              />
+
+              <ActionButton
+                icon={<FaPlus />}
+                label="Novo Funcionário"
+                onClick={() => console.log('Adicionar funcionário')}
+                variant="contained"
+                size="small"
+                fullWidth
+              />
+            </div>
+          </FilterCard>
+
+          <StatisticsGrid statistics={statistics} />
+
+          <EntityGrid
+            entities={entities}
+            onEntityClick={handleEntityClick}
+            onEntityAction={handleEntityAction}
+            actions={cardActions}
+            columns={4}
+          />
+        </div>
+
+        <Modal
+          visible={showEmployeeModal}
+          onClose={() => setShowEmployeeModal(false)}
+          title={`Detalhes do Funcionário - ${selectedEmployee?.name}`}
+        >
+          {selectedEmployee && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-6">
+                <Avatar
+                  src={selectedEmployee.photo}
+                  className="w-24 h-24 border-4 border-[var(--primary)]"
+                />
+                <div>
+                  <h3 className="text-xl font-bold text-[var(--text)] mb-2">
+                    {selectedEmployee.name}
+                  </h3>
+                  <p className="text-lg text-[var(--primary)] font-medium mb-1">
+                    {selectedEmployee.role}
+                  </p>
+                  <p className="text-sm text-[var(--muted)] mb-2">
+                    {selectedEmployee.department}
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <StatusChip status={selectedEmployee.status} />
+                    <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
+                      <span>{selectedEmployee.shift}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-[var(--primary)]">Informações Pessoais</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="text-[var(--muted)]">Cargo:</span>
+                      <span className="font-medium text-[var(--text)]">{selectedEmployee.role}</span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="text-[var(--muted)]">Departamento:</span>
+                      <span className="font-medium text-[var(--text)]">{selectedEmployee.department}</span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="text-[var(--muted)]">Turno:</span>
+                      <span className="font-medium text-[var(--text)]">{selectedEmployee.shift}</span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="text-[var(--muted)]">Status:</span>
+                      <StatusChip status={selectedEmployee.status} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-[var(--primary)]">Performance</h4>
+                  <div className="flex items-center justify-center">
+                    <PerformanceCircle value={selectedEmployee.performance} size={120} />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[var(--primary)] mb-1">
+                      {selectedEmployee.performance}%
+                    </p>
+                    <p className="text-sm text-[var(--muted)]">Performance Geral</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <ActionButton
+                  icon={<FaEdit />}
+                  label="Editar Funcionário"
+                  onClick={() => console.log('Editar funcionário')}
+                  variant="contained"
+                  size="small"
+                />
+                <ActionButton
+                  icon={<FaEye />}
+                  label="Ver Histórico"
+                  onClick={() => console.log('Ver histórico')}
+                  variant="outlined"
+                  size="small"
+                />
+              </div>
+            </div>
+          )}
+        </Modal>
+      </main>
+    </div>
+  );
+};
+
+export default FuncionariosRefactored; 
