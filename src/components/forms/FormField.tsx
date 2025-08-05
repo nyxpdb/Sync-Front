@@ -1,11 +1,11 @@
 import React from 'react';
-import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, FormControl, InputLabel, Select, MenuItem, Chip, Box } from '@mui/material';
 
 interface FormFieldProps {
-  type: 'text' | 'email' | 'password' | 'number' | 'select' | 'textarea' | 'url';
+  type: 'text' | 'email' | 'password' | 'number' | 'select' | 'textarea' | 'url' | 'multiselect';
   label: string;
-  value: string | number;
-  onChange: (value: string | number) => void;
+  value: string | number | (string | number)[];
+  onChange: (value: string | number | (string | number)[]) => void;
   placeholder?: string;
   options?: Array<{
     value: string | number;
@@ -17,8 +17,6 @@ interface FormFieldProps {
   helperText?: string;
   size?: 'small' | 'medium';
   fullWidth?: boolean;
-  multiline?: false;
-  rows?: number;
   className?: string;
 }
 
@@ -35,48 +33,32 @@ const FormField: React.FC<FormFieldProps> = ({
   helperText,
   size = 'small',
   fullWidth = true,
-  multiline = false,
-  rows = 1,
   className = ''
 }) => {
-  if (type === 'select') {
+  if (type === 'select' || type === 'multiselect') {
     return (
       <FormControl 
         size={size} 
         fullWidth={fullWidth} 
-        required={false}
+        required={required}
         disabled={disabled}
         error={!!error}
         className={className}
       >
-        <InputLabel sx={{ color: 'var(--muted)' }}>{label}</InputLabel>
+        <InputLabel>{label}</InputLabel>
         <Select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          multiple={type === 'multiselect'}
+          value={type === 'multiselect' ? (Array.isArray(value) ? value : []) : value}
+          onChange={(e) => onChange(e.target.value as any)}
           label={label}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              backgroundColor: 'white',
-              '&:hover': {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary)',
-                },
-              },
-              '&.Mui-focused': {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary)',
-                },
-              },
-            },
-            '& .MuiSelect-icon': {
-              color: 'var(--muted)',
-            },
-            '& .MuiInputLabel-root': {
-              '&.Mui-focused': {
-                color: 'var(--primary)',
-              },
-            },
-          }}
+          renderValue={type === 'multiselect' ? (selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {(selected as (string | number)[]).map((val) => {
+                const option = options.find(opt => opt.value === val);
+                return <Chip key={val} label={option ? option.label : ''} size="small" />;
+              })}
+            </Box>
+          ) : undefined}
         >
           {options.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -101,34 +83,7 @@ const FormField: React.FC<FormFieldProps> = ({
       helperText={error || helperText}
       size={size}
       fullWidth={fullWidth}
-      multiline={multiline}
-      rows={rows}
       className={className}
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          backgroundColor: 'white',
-          '&:hover': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'var(--primary)',
-            },
-          },
-          '&.Mui-focused': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'var(--primary)',
-            },
-          },
-        },
-        '& .MuiInputLabel-root': {
-          '&.Mui-focused': {
-            color: 'var(--primary)',
-          },
-        },
-        '& .MuiInputBase-input': {
-          '&:hover': {
-            borderColor: 'var(--primary)',
-          },
-        },
-      }}
     />
   );
 };

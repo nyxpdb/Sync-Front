@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Paper, Divider } from '@mui/material';
-import { FaPlus, FaEdit, FaTimes, FaSave, FaUser, FaCog, FaBuilding } from 'react-icons/fa';
-import { ActionButton } from '../ui';
+import { Dialog, DialogContent, DialogActions, Paper } from '@mui/material';
+import { FaTimes, FaSave, FaUser, FaCog, FaBuilding } from 'react-icons/fa';
 import FormField from './FormField';
 
 export interface FormFieldConfig {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'email' | 'password' | 'select' | 'textarea' | 'url';
+  type: 'text' | 'number' | 'email' | 'password' | 'select' | 'textarea' | 'url' | 'multiselect';
   required?: boolean;
-  options?: { value: string; label: string }[];
+  options?: { value: string | number; label: string }[];
   placeholder?: string;
   defaultValue?: any;
 }
@@ -115,17 +114,7 @@ const CUDModal: React.FC<CUDModalProps> = ({
     }
   };
 
-  const getModeIcon = () => {
-    switch (mode) {
-      case 'create':
-      case 'add':
-        return <FaPlus className="text-lg" />;
-      case 'edit':
-        return <FaEdit className="text-lg" />;
-      default:
-        return <FaPlus className="text-lg" />;
-    }
-  };
+  
 
   const getSubmitLabel = () => {
     switch (mode) {
@@ -200,7 +189,7 @@ const CUDModal: React.FC<CUDModalProps> = ({
       <DialogContent className="p-8 pt-8">
         <Paper elevation={0} className="bg-gray-50 rounded-xl p-6">
           <div className="space-y-6">
-            {fields.map((field, index) => (
+            {fields.map((field) => (
               <div key={field.name} className="relative">
                 <div className="mb-2">
                   <span className="text-sm font-medium text-gray-700">
@@ -212,7 +201,7 @@ const CUDModal: React.FC<CUDModalProps> = ({
                   type={field.type}
                   label=""
                   value={formData[field.name] || ''}
-                  onChange={(value: string | number) => handleInputChange(field.name, value)}
+                  onChange={(value) => handleInputChange(field.name, value)}
                   required={field.required}
                   options={field.options}
                   placeholder={field.placeholder}

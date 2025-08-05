@@ -1,73 +1,11 @@
 import React, { useState } from "react";
+import { employeesData, machinesData } from '../../shared/sharedData';
+import type { Employee } from '../../shared/sharedData';
 import { Header, PageHeader } from "../../components/layout";
 import { Card, CardContent, Button, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, Chip } from '@mui/material';
 import { FaUsers, FaPlus, FaEdit, FaEye, FaUserTie, FaBuilding, FaChartLine, FaTrash, FaClock, FaSearch } from 'react-icons/fa';
 import CUDModal from '../../components/forms/CUDModal';
 import type { FormFieldConfig } from '../../components/forms/CUDModal';
-
-interface Employee {
-  id: number;
-  name: string;
-  role: string;
-  department: string;
-  performance: number;
-  status: string;
-  shift: string;
-  photo: string;
-}
-
-const employeesData: Employee[] = [
-  {
-    id: 1,
-    photo: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "Ethan Harper",
-    role: "Production Manager",
-    department: "Manufacturing",
-    performance: 85,
-    status: "Active",
-    shift: "Manhã",
-  },
-  {
-    id: 2,
-    photo: "https://randomuser.me/api/portraits/men/12.jpg",
-    name: "Bruno Silva",
-    role: "Operador de Empilhadeira",
-    department: "Logística",
-    performance: 82,
-    status: "Active",
-    shift: "Manhã",
-  },
-  {
-    id: 3,
-    photo: "https://randomuser.me/api/portraits/women/44.jpg",
-    name: "Olivia Bennett",
-    role: "Automation Engineer",
-    department: "Engineering",
-    performance: 92,
-    status: "Active",
-    shift: "Manhã",
-  },
-  {
-    id: 4,
-    photo: "https://randomuser.me/api/portraits/men/45.jpg",
-    name: "Lucas Almeida",
-    role: "Operador de Máquinas",
-    department: "Produção",
-    performance: 78,
-    status: "On Leave",
-    shift: "Tarde",
-  },
-  {
-    id: 5,
-    photo: "https://randomuser.me/api/portraits/women/65.jpg",
-    name: "Marina Souza",
-    role: "Analista de Qualidade",
-    department: "Qualidade",
-    performance: 88,
-    status: "Medical Leave",
-    shift: "Tarde",
-  },
-];
 
 const Funcionarios: React.FC = () => {
   console.log('Funcionarios component is rendering');
@@ -163,6 +101,13 @@ const Funcionarios: React.FC = () => {
       type: 'select',
       required: true,
       options: shifts.map(shift => ({ value: shift, label: shift }))
+    },
+    {
+      name: 'machineIds',
+      label: 'Máquinas Operadas',
+      type: 'multiselect',
+      required: false,
+      options: machinesData.map(machine => ({ value: machine.id, label: machine.name }))
     }
   ];
 
@@ -479,7 +424,17 @@ const Funcionarios: React.FC = () => {
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-[var(--primary)]">Performance</h4>
+                    {/* Máquinas associadas */}
+                    <h4 className="text-lg font-semibold text-[var(--primary)]">Máquinas Operadas</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {(() => {
+                        const maquinas = machinesData.filter(maq => selectedEmployee.machineIds.includes(maq.id));
+                        if (maquinas.length === 0) return <span className="text-sm text-[var(--muted)]">Nenhuma máquina associada.</span>;
+                        return maquinas.map(maq => (
+                          <Chip key={maq.id} label={maq.name} avatar={<Avatar src={maq.image} />} />
+                        ));
+                      })()}
+                    </div>
                     <div className="flex items-center justify-center">
                       <div className="relative w-32 h-32">
                         <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">

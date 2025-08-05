@@ -1,96 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { machinesData, employeesData } from '../../shared/sharedData';
+import type { Machine } from '../../shared/sharedData';
 import { Header, PageHeader } from '../../components/layout';
-import { Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Avatar } from '@mui/material';
-import {
-  FaBuilding, FaUsers, FaCog, FaChartLine, FaPlus, FaEdit, FaTrash, FaEye,
-  FaIndustry, FaBox, FaTruck, FaTools, FaFlask, FaShieldAlt, FaCheckCircle,
-  FaExclamationTriangle, FaClock, FaUserTie, FaUserCog, FaArrowUp, FaArrowDown,
-  FaFilter, FaSearch, FaMapMarkerAlt, FaDollarSign, FaCalendarAlt
-} from 'react-icons/fa';
+import { Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Chip, Avatar } from '@mui/material';
+import { FaIndustry, FaCog, FaTools, FaPlus, FaEye, FaEdit, FaTrash, FaExclamationTriangle, FaCheckCircle, FaChartLine } from 'react-icons/fa';
 import CUDModal from '../../components/forms/CUDModal';
 import type { FormFieldConfig } from '../../components/forms/CUDModal';
-
-interface Machine {
-  id: number;
-  name: string;
-  status: string;
-  oee: number;
-  throughput: number;
-  image: string;
-}
-
-const machinesData: Machine[] = [
-  {
-    id: 1,
-    name: 'Corte Laser',
-    status: 'Operando',
-    oee: 92,
-    throughput: 150,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 2,
-    name: 'Prensa Hidráulica',
-    status: 'Parada',
-    oee: 0,
-    throughput: 0,
-    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 3,
-    name: 'Injetora Plástica',
-    status: 'Manutenção',
-    oee: 0,
-    throughput: 0,
-    image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 4,
-    name: 'Montadora Automática',
-    status: 'Operando',
-    oee: 88,
-    throughput: 120,
-    image: 'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 5,
-    name: 'Torno CNC',
-    status: 'Operando',
-    oee: 95,
-    throughput: 80,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 6,
-    name: 'Fresa Industrial',
-    status: 'Operando',
-    oee: 89,
-    throughput: 95,
-    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 7,
-    name: 'Soldadora Robótica',
-    status: 'Manutenção',
-    oee: 0,
-    throughput: 0,
-    image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 8,
-    name: 'Empacotadora',
-    status: 'Operando',
-    oee: 91,
-    throughput: 200,
-    image: 'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=400&q=80',
-  },
-];
 
 const Maquinas: React.FC = () => {
   console.log('Maquinas component is rendering');
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -183,7 +103,7 @@ const Maquinas: React.FC = () => {
   const totalMachines = machinesData.length;
   const operatingMachines = machinesData.filter(m => m.status === 'Operando').length;
   const maintenanceMachines = machinesData.filter(m => m.status === 'Manutenção').length;
-  const stoppedMachines = machinesData.filter(m => m.status === 'Parada').length;
+
   const averageOEE = Math.round(machinesData.reduce((sum, m) => sum + m.oee, 0) / machinesData.length);
 
   const getStatusColor = (status: string) => {
@@ -295,111 +215,106 @@ const Maquinas: React.FC = () => {
 
           {/* Grid de Máquinas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
-            {machinesData.map((machine) => (
-              <Card
-                key={machine.id}
-                className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
-                onClick={() => handleOpenDetails(machine)}
-              >
-                <div className="relative mb-4">
-                  <Avatar
-                    src={machine.image}
-                    className={`w-20 h-20 border-4 shadow-lg ${
-                      machine.status === 'Operando' ? 'border-green-400' :
-                      machine.status === 'Manutenção' ? 'border-yellow-400' :
-                      machine.status === 'Parada' ? 'border-red-400' : 'border-gray-300'
-                    }`}
-                  />
-                </div>
-                <div className="mb-2 flex justify-center">
-                  <Chip 
-                    label={machine.status}
-                    color={getStatusColor(machine.status) as any}
-                    size="small"
-                  />
-                </div>
-
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-[var(--text)] mb-1">
-                    {machine.name}
-                  </h3>
-                  <p className="text-sm text-[var(--muted)] mb-2">
-                    Status: {machine.status}
-                  </p>
-                </div>
-
-                <div className="w-full space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-[var(--muted)]">OEE</span>
-                    <span className="text-sm font-semibold text-[var(--primary)]">
-                      {machine.oee}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${machine.oee}%` }}
-                    ></div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-[var(--muted)]">Vazão</span>
-                    <span className="text-sm font-semibold text-[var(--primary)]">
-                      {machine.throughput} un/h
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 mt-4 w-full">
-                  <Button
-                    variant="outlined"
-                    startIcon={<FaEye />}
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOpenDetails(machine);
-                    }}
-                    sx={{
-                      color: 'var(--primary)',
-                      borderColor: 'var(--primary)',
-                      '&:hover': {
-                        backgroundColor: 'var(--primary)',
-                        color: 'white',
-                        borderColor: 'var(--primary)',
-                      },
-                    }}
-                    fullWidth
-                  >
-                    Ver
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    startIcon={<FaEdit />}
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOpenEdit(machine);
-                    }}
-                    sx={{
-                      color: 'var(--primary)',
-                      borderColor: 'var(--primary)',
-                      '&:hover': {
-                        backgroundColor: 'var(--primary)',
-                        color: 'white',
-                        borderColor: 'var(--primary)',
-                      },
-                    }}
-                    fullWidth
-                  >
-                    Editar
-                  </Button>
-                </div>
-              </Card>
-            ))}
+            {machinesData.map((machine) => {
+  const operadores = employeesData.filter(emp => emp.machineIds && emp.machineIds.includes(machine.id));
+  return (
+    <Card
+      key={machine.id}
+      className="bg-white rounded-2xl shadow-lg p-0 flex flex-col items-stretch transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer border border-gray-100 group"
+      onClick={() => handleOpenDetails(machine)}
+    >
+      <div className="relative flex flex-col items-center pt-6 pb-2 px-6 bg-gradient-to-t from-white via-gray-50 to-[var(--accent)/10] rounded-t-2xl">
+        <Avatar
+          src={machine.image}
+          className={`w-20 h-20 border-4 shadow-lg mb-2 ${
+            machine.status === 'Operando' ? 'border-green-400' :
+            machine.status === 'Manutenção' ? 'border-yellow-400' :
+            machine.status === 'Parada' ? 'border-red-400' : 'border-gray-300'
+          }`}
+        />
+        <Chip 
+          label={machine.status}
+          color={getStatusColor(machine.status) as any}
+          size="small"
+          className="absolute top-4 right-4"
+        />
+      </div>
+      <div className="flex flex-col items-center px-6 pt-2 pb-4">
+        <h3 className="text-lg font-bold text-[var(--primary)] mb-1 flex items-center gap-2">
+          {getMachineIcon(machine.name)} {machine.name}
+        </h3>
+        <div className="flex flex-wrap gap-1 justify-center mb-1">
+          {operadores.length > 0 ? operadores.map(emp => (
+            <Chip key={emp.id} label={emp.name.split(' ')[0]} avatar={<Avatar src={emp.photo} />} size="small" />
+          )) : <span className="text-xs text-[var(--muted)]">Sem operador</span>}
+        </div>
+      </div>
+      <div className="flex flex-row items-center justify-between px-6 pb-4 gap-3">
+        <div className="flex flex-col items-center flex-1">
+          <span className="text-[10px] text-[var(--muted)]">OEE</span>
+          <span className="font-bold text-[var(--primary)] text-lg">{machine.oee}%</span>
+          <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+            <div
+              className="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] h-1 rounded-full transition-all duration-300"
+              style={{ width: `${machine.oee}%` }}
+            ></div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center flex-1">
+          <span className="text-[10px] text-[var(--muted)]">Vazão</span>
+          <span className="font-bold text-[var(--primary)] text-lg">{machine.throughput} un/h</span>
+        </div>
+      </div>
+      <div className="flex gap-2 px-6 pb-6 w-full mt-auto">
+        <Button
+          variant="outlined"
+          startIcon={<FaEye />}
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleOpenDetails(machine);
+          }}
+          sx={{
+            color: 'var(--primary)',
+            borderColor: 'var(--primary)',
+            '&:hover': {
+              backgroundColor: 'var(--primary)',
+              color: 'white',
+              borderColor: 'var(--primary)',
+            },
+          }}
+          fullWidth
+        >
+          Ver
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<FaEdit />}
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleOpenEdit(machine);
+          }}
+          sx={{
+            color: 'var(--primary)',
+            borderColor: 'var(--primary)',
+            '&:hover': {
+              backgroundColor: 'var(--primary)',
+              color: 'white',
+              borderColor: 'var(--primary)',
+            },
+          }}
+          fullWidth
+        >
+          Editar
+        </Button>
+      </div>
+    </Card>
+  );
+})}
           </div>
         </div>
 
-        {/* Modal de Detalhes */}
         <Dialog
           open={showDetailsModal}
           onClose={handleCloseDetails}
@@ -425,20 +340,48 @@ const Maquinas: React.FC = () => {
               <DialogContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
+                    <h4 className="text-lg font-semibold text-[var(--primary)]">Operadores/Funcionários</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {(() => {
+                        try {
+                          // @ts-ignore
+                          const { employeesData } = require('./Funcionarios');
+                          const operadores = employeesData.filter((emp: any) => emp.machineIds.includes(selectedMachine.id));
+                          if (operadores.length === 0) return <span className="text-sm text-[var(--muted)]">Nenhum funcionário associado.</span>;
+                          return operadores.map((emp: any) => (
+                            <Chip key={emp.id} label={emp.name} avatar={<Avatar src={emp.photo} />} />
+                          ));
+                        } catch (e) {
+                          return <span className="text-sm text-[var(--muted)]">Funcionários não encontrados.</span>;
+                        }
+                      })()}
+                    </div>
+                  </div>
+                  <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <Avatar
                         src={selectedMachine.image}
                         className="w-24 h-24 border-4 border-[var(--primary)]"
                       />
                       <div>
-                        <h3 className="text-xl font-bold text-[var(--text)] mb-2">
-                          {selectedMachine.name}
-                        </h3>
-                        <Chip 
-                          label={selectedMachine.status}
-                          color={getStatusColor(selectedMachine.status) as any}
-                        />
-                      </div>
+  <h3 className="text-xl font-bold text-[var(--text)] mb-2">
+  {selectedMachine.name}
+</h3>
+<h5 className="text-md font-semibold text-[var(--primary)] mb-1">Operadores / Funcionários</h5>
+<div className="flex flex-wrap gap-2 mb-2">
+  {(() => {
+    const operadores = employeesData.filter(emp => emp.machineIds && emp.machineIds.includes(selectedMachine.id));
+    if (operadores.length === 0) return <span className="text-sm text-[var(--muted)]">Nenhum operador associado.</span>;
+    return operadores.map(emp => (
+      <Chip key={emp.id} label={emp.name} avatar={<Avatar src={emp.photo} />} />
+    ));
+  })()}
+</div>
+<Chip 
+  label={selectedMachine.status}
+  color={getStatusColor(selectedMachine.status) as any}
+/>
+</div>
                     </div>
 
                     <div className="space-y-3">
@@ -470,6 +413,15 @@ const Maquinas: React.FC = () => {
 
                   <div className="space-y-4">
                     <h4 className="text-lg font-semibold text-[var(--primary)]">Gráfico de Performance</h4>
+<div className="flex flex-wrap gap-2 mb-2">
+  {(() => {
+    const operadores = employeesData.filter(emp => emp.machineIds && emp.machineIds.includes(selectedMachine.id));
+    if (operadores.length === 0) return <span className="text-sm text-[var(--muted)]">Nenhum operador associado.</span>;
+    return operadores.map(emp => (
+      <Chip key={emp.id} label={emp.name} avatar={<Avatar src={emp.photo} />} />
+    ));
+  })()}
+</div>
                     <div className="h-48 bg-gradient-to-br from-[var(--accent)] to-white rounded-lg flex items-center justify-center border border-gray-100">
                       <div className="text-center">
                         <div className="w-20 h-20 bg-[var(--primary)] rounded-full flex items-center justify-center mx-auto mb-4">
