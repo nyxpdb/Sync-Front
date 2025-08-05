@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { ShowChart } from '@mui/icons-material';
+
 
 interface BasicChartProps {
   title: string;
@@ -61,7 +61,6 @@ const BasicChart: React.FC<BasicChartProps> = ({
       <div className="flex flex-col items-center justify-center h-full">
         <svg width="240" height="200" className="mx-auto">
           {data.map((item, index) => {
-            const percentage = (item.value / total) * 100;
             const angle = (item.value / total) * 2 * Math.PI;
             const startAngle = currentAngle;
             const endAngle = currentAngle + angle;
@@ -187,7 +186,6 @@ const BasicChart: React.FC<BasicChartProps> = ({
           <Typography variant="h6" className="font-semibold text-gray-800">
             {title}
           </Typography>
-          <ShowChart className="text-blue-500" />
         </div>
         
         <div 

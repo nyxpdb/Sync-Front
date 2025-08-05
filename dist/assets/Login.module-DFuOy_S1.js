@@ -1,0 +1,1 @@
+const o="_container_1ndqy_1",n="_formBox_1ndqy_15",s="_logo_1ndqy_39",_={container:o,formBox:n,logo:s,"animate-shake":"_animate-shake_1ndqy_91","animate-success":"_animate-success_1ndqy_135"};export{_ as s};

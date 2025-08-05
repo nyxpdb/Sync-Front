@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent, Chip, Box, Typography } from '@mui/material';
-import { FaCheckCircle, FaExclamationTriangle, FaArrowUp, FaArrowDown, FaThermometerHalf } from 'react-icons/fa';
+import { Card, CardContent, Chip } from '@mui/material';
+import { FaCheckCircle, FaExclamationTriangle, FaArrowDown, FaThermometerHalf } from 'react-icons/fa';
 
 interface MetricsCardProps {
   title: string;

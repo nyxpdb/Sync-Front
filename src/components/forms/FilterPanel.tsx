@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem, Button, Chip, Box, Typography } from '@mui/material';
+import { Card, CardContent, TextField, FormControl, Select, MenuItem, Button, Chip } from '@mui/material';
 import { FaFilter, FaSearch, FaTimes, FaCalendarAlt, FaBuilding, FaCog } from 'react-icons/fa';
 
 interface FilterOption {
@@ -61,19 +61,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   React.useEffect(() => {
     let count = 0;
     if (filters.date?.value) count++;
-    if (filters.status?.value && filters.status.value !== 'all') count++;
-    if (filters.department?.value && filters.department.value !== 'all') count++;
-    if (filters.machine?.value && filters.machine.value !== 'all') count++;
-    if (filters.employee?.value && filters.employee.value !== 'all') count++;
+    if (filters.status?.value && filters.status && filters.status.value !== 'all') count++;
+    if (filters.department?.value && filters.department && filters.department.value !== 'all') count++;
+    if (filters.machine?.value && filters.machine && filters.machine.value !== 'all') count++;
+    if (filters.employee?.value && filters.employee && filters.employee.value !== 'all') count++;
     setActiveFilters(count);
   }, [filters]);
 
   const handleClear = () => {
-    if (filters.date?.onChange) filters.date.onChange('');
-    if (filters.status?.onChange) filters.status.onChange('all');
-    if (filters.department?.onChange) filters.department.onChange('all');
-    if (filters.machine?.onChange) filters.machine.onChange('all');
-    if (filters.employee?.onChange) filters.employee.onChange('all');
+    if (filters.date?.onChange) filters.date && filters.date.onChange('');
+    if (filters.status?.onChange) filters.status && filters.status.onChange('all');
+    if (filters.department?.onChange) filters.department && filters.department.onChange('all');
+    if (filters.machine?.onChange) filters.machine && filters.machine.onChange('all');
+    if (filters.employee?.onChange) filters.employee && filters.employee.onChange('all');
     if (onClear) onClear();
   };
 
@@ -144,12 +144,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                   <FaCalendarAlt className="text-[var(--primary)]" />
-                  {filters.date.label}
+                  {filters.date && filters.date.label}
                 </label>
                 <TextField
                   type="date"
-                  value={filters.date.value}
-                  onChange={(e) => filters.date.onChange(e.target.value)}
+                  value={filters.date && filters.date.value}
+                  onChange={(e) => filters.date && filters.date.onChange(e.target.value)}
                   size="small"
                   fullWidth
                   sx={{
@@ -176,12 +176,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                   <FaCog className="text-[var(--primary)]" />
-                  {filters.status.label}
+                  {filters.status && filters.status.label}
                 </label>
                 <FormControl size="small" fullWidth>
                   <Select
-                    value={filters.status.value}
-                    onChange={(e) => filters.status.onChange(e.target.value)}
+                    value={filters.status && filters.status.value}
+                    onChange={(e) => filters.status && filters.status.onChange(e.target.value)}
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
@@ -198,7 +198,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                       },
                     }}
                   >
-                    {filters.status.options.map((option) => (
+                    {filters.status && filters.status.options.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
@@ -213,12 +213,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                   <FaBuilding className="text-[var(--primary)]" />
-                  {filters.department.label}
+                  {filters.department && filters.department.label}
                 </label>
                 <FormControl size="small" fullWidth>
                   <Select
-                    value={filters.department.value}
-                    onChange={(e) => filters.department.onChange(e.target.value)}
+                    value={filters.department && filters.department.value}
+                    onChange={(e) => filters.department && filters.department.onChange(e.target.value)}
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
@@ -235,7 +235,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                       },
                     }}
                   >
-                    {filters.department.options.map((option) => (
+                    {filters.department && filters.department.options.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
@@ -250,12 +250,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                   <FaCog className="text-[var(--primary)]" />
-                  {filters.machine.label}
+                  {filters.machine && filters.machine.label}
                 </label>
                 <FormControl size="small" fullWidth>
                   <Select
-                    value={filters.machine.value}
-                    onChange={(e) => filters.machine.onChange(e.target.value)}
+                    value={filters.machine && filters.machine.value}
+                    onChange={(e) => filters.machine && filters.machine.onChange(e.target.value)}
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
@@ -272,7 +272,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                       },
                     }}
                   >
-                    {filters.machine.options.map((option) => (
+                    {filters.machine && filters.machine.options.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
@@ -287,12 +287,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                   <FaBuilding className="text-[var(--primary)]" />
-                  {filters.employee.label}
+                  {filters.employee && filters.employee.label}
                 </label>
                 <FormControl size="small" fullWidth>
                   <Select
-                    value={filters.employee.value}
-                    onChange={(e) => filters.employee.onChange(e.target.value)}
+                    value={filters.employee && filters.employee.value}
+                    onChange={(e) => filters.employee && filters.employee.onChange(e.target.value)}
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
@@ -309,7 +309,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                       },
                     }}
                   >
-                    {filters.employee.options.map((option) => (
+                    {filters.employee && filters.employee.options.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
@@ -346,44 +346,68 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <span className="text-sm text-gray-600">Filtros ativos:</span>
               {filters.date?.value && (
                 <Chip
-                  label={`Data: ${new Date(filters.date.value).toLocaleDateString('pt-BR')}`}
+                  label={`Data: ${new Date(filters.date && filters.date.value).toLocaleDateString('pt-BR')}`}
                   size="small"
                   color="primary"
-                  onDelete={() => filters.date.onChange('')}
+                  onDelete={() => filters.date && filters.date.onChange('')}
                 />
               )}
-              {filters.status?.value && filters.status.value !== 'all' && (
-                <Chip
-                  label={`Status: ${filters.status.options.find(opt => opt.value === filters.status.value)?.label}`}
-                  size="small"
-                  color="primary"
-                  onDelete={() => filters.status.onChange('all')}
-                />
-              )}
-              {filters.department?.value && filters.department.value !== 'all' && (
-                <Chip
-                  label={`Departamento: ${filters.department.options.find(opt => opt.value === filters.department.value)?.label}`}
-                  size="small"
-                  color="primary"
-                  onDelete={() => filters.department.onChange('all')}
-                />
-              )}
-              {filters.machine?.value && filters.machine.value !== 'all' && (
-                <Chip
-                  label={`Máquina: ${filters.machine.options.find(opt => opt.value === filters.machine.value)?.label}`}
-                  size="small"
-                  color="primary"
-                  onDelete={() => filters.machine.onChange('all')}
-                />
-              )}
-              {filters.employee?.value && filters.employee.value !== 'all' && (
-                <Chip
-                  label={`Funcionário: ${filters.employee.options.find(opt => opt.value === filters.employee.value)?.label}`}
-                  size="small"
-                  color="primary"
-                  onDelete={() => filters.employee.onChange('all')}
-                />
-              )}
+              {(() => {
+  const statusFilter = filters.status;
+  if (statusFilter && statusFilter.value !== 'all') {
+    return (
+      <Chip
+        label={`Status: ${statusFilter.options.find(opt => opt.value === statusFilter.value)?.label}`}
+        size="small"
+        color="primary"
+        onDelete={() => statusFilter.onChange('all')}
+      />
+    );
+  }
+  return null;
+})()}
+{(() => {
+  const departmentFilter = filters.department;
+  if (departmentFilter && departmentFilter.value !== 'all') {
+    return (
+      <Chip
+        label={`Departamento: ${departmentFilter.options.find(opt => opt.value === departmentFilter.value)?.label}`}
+        size="small"
+        color="primary"
+        onDelete={() => departmentFilter.onChange('all')}
+      />
+    );
+  }
+  return null;
+})()}
+{(() => {
+  const machineFilter = filters.machine;
+  if (machineFilter && machineFilter.value !== 'all') {
+    return (
+      <Chip
+        label={`Máquina: ${machineFilter.options.find(opt => opt.value === machineFilter.value)?.label}`}
+        size="small"
+        color="primary"
+        onDelete={() => machineFilter.onChange('all')}
+      />
+    );
+  }
+  return null;
+})()}
+{(() => {
+  const employeeFilter = filters.employee;
+  if (employeeFilter && employeeFilter.value !== 'all') {
+    return (
+      <Chip
+        label={`Funcionário: ${employeeFilter.options.find(opt => opt.value === employeeFilter.value)?.label}`}
+        size="small"
+        color="primary"
+        onDelete={() => employeeFilter.onChange('all')}
+      />
+    );
+  }
+  return null;
+})()}
             </div>
           </div>
         )}

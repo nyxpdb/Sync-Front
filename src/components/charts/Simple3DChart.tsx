@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { ShowChart } from '@mui/icons-material';
 
 interface Simple3DChartProps {
   title: string;
@@ -69,7 +68,6 @@ const Simple3DChart: React.FC<Simple3DChartProps> = ({
     <div className="flex items-center justify-center h-full">
       <div className="relative w-48 h-48">
         {data.map((item, index) => {
-          const percentage = (item.value / data.reduce((sum, d) => sum + d.value, 0)) * 100;
           const startAngle = data
             .slice(0, index)
             .reduce((sum, d) => sum + (d.value / data.reduce((sum, d) => sum + d.value, 0)) * 360, 0);
@@ -191,7 +189,7 @@ const Simple3DChart: React.FC<Simple3DChartProps> = ({
           <Typography variant="h6" className="font-semibold text-gray-800">
             {title}
           </Typography>
-          <ShowChart className="text-blue-500" />
+          {/* Ícone removido por falta de types do @mui/icons-material. Substitua por outro ícone se desejar. */}
         </div>
         
         <div 

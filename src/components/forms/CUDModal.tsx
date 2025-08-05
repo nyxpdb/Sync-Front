@@ -76,7 +76,6 @@ const CUDModal: React.FC<CUDModalProps> = ({
         newErrors[field.name] = `${field.label} é obrigatório`;
       }
       
-      // Additional validation for specific field types
       if (field.type === 'email' && formData[field.name]) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData[field.name])) {

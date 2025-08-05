@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Header, PageHeader } from '../../components/layout';
 import { SummaryCard, FilterCard } from '../../components/cards';
-import { Card, CardContent, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { FaChartLine, FaDownload, FaEye, FaEdit, FaTrash, FaPlus, FaFilter, FaSearch, FaCalendarAlt, FaUserTie, FaBuilding, FaIndustry, FaTools, FaExclamationTriangle, FaCheckCircle, FaClock, FaArrowUp, FaArrowDown, FaChartBar, FaChartPie, FaCog, FaPrint, FaShare, FaFileExport } from 'react-icons/fa';
+import { Card, CardContent, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FaChartLine, FaEye, FaFilter, FaIndustry, FaChartBar, FaChartPie, FaCog, FaPrint, FaShare, FaFileExport } from 'react-icons/fa';
 
 type ProductionData = {
   mes: string;
@@ -366,7 +366,7 @@ const Relatorios: React.FC = () => {
               <Card className="shadow-lg border-0 bg-gradient-to-br from-[var(--accent)] to-white">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold text-[var(--primary)] mb-4 flex items-center gap-2">
-                    <FaDownload className="text-[var(--primary)]" />
+                    <FaFileExport className="text-[var(--primary)]" />
                     Exportar Relatório
                   </h3>
                   <div className="space-y-3">
@@ -475,4 +475,4 @@ const Relatorios: React.FC = () => {
   );
 };
 
-export default Relatorios; 
+export default Relatorios;

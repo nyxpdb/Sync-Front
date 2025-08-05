@@ -12,8 +12,6 @@ interface ConfirmDialogProps {
   confirmText?: string;
   cancelText?: string;
   type?: 'warning' | 'info' | 'question';
-  confirmColor?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-  cancelColor?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fullWidth?: boolean;
 }
@@ -27,8 +25,6 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmText = 'Confirmar',
   cancelText = 'Cancelar',
   type = 'question',
-  confirmColor = 'primary',
-  cancelColor = 'default',
   maxWidth = 'sm',
   fullWidth = true
 }) => {
@@ -53,18 +49,6 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       case 'question':
       default:
         return 'text-[var(--primary)]';
-    }
-  };
-
-  const getConfirmColor = () => {
-    switch (type) {
-      case 'warning':
-        return 'error';
-      case 'info':
-        return 'primary';
-      case 'question':
-      default:
-        return confirmColor;
     }
   };
 

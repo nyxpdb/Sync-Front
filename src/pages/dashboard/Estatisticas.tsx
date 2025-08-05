@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Header, PageHeader } from '../../components/layout';
-import { Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Avatar, Grid, Typography, Box } from '@mui/material';
+import { Card, CardContent, Button, Chip } from '@mui/material';
 import {
-  FaChartLine, FaCog, FaUsers, FaIndustry, FaPlus, FaEdit, FaEye, FaTrash,
-  FaClock, FaTachometerAlt, FaExclamationTriangle, FaCheckCircle, FaArrowUp,
-  FaArrowDown, FaFilter, FaSearch, FaCalendarAlt, FaChartBar, FaChartPie,
-  FaThermometerHalf, FaBolt, FaTools, FaUserCog, FaBuilding
+  FaChartLine, FaCog, FaUsers, FaIndustry, FaPlus, FaTachometerAlt,
+  FaBuilding
 } from 'react-icons/fa';
 import CUDModal from '../../components/forms/CUDModal';
 import type { FormFieldConfig } from '../../components/forms/CUDModal';
+
 import FilterPanel from '../../components/forms/FilterPanel';
 import MetricsCard from '../../components/data/MetricsCard';
-
 
 interface MachineOEE {
   id: number;
@@ -61,9 +59,8 @@ const Estatisticas: React.FC = () => {
   const [showOEEModal, setShowOEEModal] = useState(false);
   const [showEfficiencyModal, setShowEfficiencyModal] = useState(false);
   const [showDepartmentModal, setShowDepartmentModal] = useState(false);
-  const [selectedMetric, setSelectedMetric] = useState<any>(null);
-  const [metricType, setMetricType] = useState<'oee' | 'efficiency' | 'department'>('oee');
-
+  // The 'selectedMetric' and 'metricType' state variables were not being used, so they have been removed.
+  // const [selectedMetric, setSelectedMetric] = useState<any>(null);
   const [filterDate, setFilterDate] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterDepartment, setFilterDepartment] = useState('all');
@@ -155,7 +152,8 @@ const Estatisticas: React.FC = () => {
     }
   ];
 
-  const oeeFields: FormFieldConfig[] = [
+
+const oeeFields: FormFieldConfig[] = [
     {
       name: 'machineId',
       label: 'Máquina',
@@ -365,36 +363,17 @@ const Estatisticas: React.FC = () => {
 
   const handleSubmitOEE = (data: Record<string, any>) => {
     console.log('Dados OEE:', data);
-    setShowOEEModal(false);
   };
 
   const handleSubmitEfficiency = (data: Record<string, any>) => {
     console.log('Dados Eficiência:', data);
-    setShowEfficiencyModal(false);
   };
 
   const handleSubmitDepartmentMetrics = (data: Record<string, any>) => {
     console.log('Dados Departamento:', data);
-    setShowDepartmentModal(false);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'operating':
-      case 'active':
-      case 'operational':
-        return 'success';
-      case 'maintenance':
-        return 'warning';
-      case 'stopped':
-      case 'absent':
-      case 'closed':
-        return 'error';
-      default:
-        return 'default';
-    }
-  };
-
+  
   const getStatusText = (status: string) => {
     switch (status) {
       case 'operating': return 'Operando';
@@ -408,18 +387,19 @@ const Estatisticas: React.FC = () => {
       default: return status;
     }
   };
+  
+  // The 'getOEEStatus' and 'getEfficiencyStatus' functions were not used, so they have been removed.
+  // const getOEEStatus = (oee: number) => {
+  //   if (oee >= 85) return { color: 'success', icon: <FaCheckCircle /> };
+  //   if (oee >= 70) return { color: 'warning', icon: <FaExclamationTriangle /> };
+  //   return { color: 'error', icon: <FaExclamationTriangle /> };
+  // };
 
-  const getOEEStatus = (oee: number) => {
-    if (oee >= 85) return { color: 'success', icon: <FaCheckCircle /> };
-    if (oee >= 70) return { color: 'warning', icon: <FaExclamationTriangle /> };
-    return { color: 'error', icon: <FaExclamationTriangle /> };
-  };
-
-  const getEfficiencyStatus = (efficiency: number) => {
-    if (efficiency >= 90) return { color: 'success', icon: <FaArrowUp /> };
-    if (efficiency >= 75) return { color: 'warning', icon: <FaThermometerHalf /> };
-    return { color: 'error', icon: <FaArrowDown /> };
-  };
+  // const getEfficiencyStatus = (efficiency: number) => {
+  //   if (efficiency >= 90) return { color: 'success', icon: <FaArrowUp /> };
+  //   if (efficiency >= 75) return { color: 'warning', icon: <FaThermometerHalf /> };
+  //   return { color: 'error', icon: <FaArrowDown /> };
+  // };
 
   return (
     <div className="w-screen min-h-screen flex flex-col bg-white">
@@ -761,4 +741,4 @@ const Estatisticas: React.FC = () => {
   );
 };
 
-export default Estatisticas; 
+export default Estatisticas;

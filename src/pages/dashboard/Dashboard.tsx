@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../../components/layout';
-import { Card, CardContent, Button, Avatar, Chip } from '@mui/material';
+import { Card, CardContent, Button, Chip } from '@mui/material';
 import { 
   FaIndustry, FaUsers, FaChartLine, FaCog, FaTools, FaCheckCircle, 
   FaExclamationTriangle, FaClock, FaBuilding, FaDollarSign, FaArrowUp, 
-  FaArrowDown, FaEye, FaEdit, FaPlus 
+  FaEye, FaPlus 
 } from 'react-icons/fa';
 import { BasicChart } from '../../components/charts';
 
@@ -33,7 +33,7 @@ interface RecentActivity {
 const Dashboard: React.FC = () => {
   console.log('Dashboard component is rendering');
   
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats] = useState<DashboardStats>({
     totalMachines: 24,
     operatingMachines: 18,
     maintenanceMachines: 3,

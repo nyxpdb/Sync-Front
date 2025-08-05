@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import ActionButton from './ActionButton';
-import { FaInbox, FaSearch, FaExclamationTriangle } from 'react-icons/fa';
+
 
 interface EmptyStateProps {
   icon: React.ReactNode;

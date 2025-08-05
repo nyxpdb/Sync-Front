@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import '../../styles/base/globals.css';
 import {
   FaRocket, FaChartLine, FaCogs, FaShieldAlt, FaUsers, FaCheckCircle,
-  FaArrowRight, FaPlay, FaStar, FaQuoteLeft, FaEnvelope, FaPhone,
-  FaMapMarkerAlt, FaLinkedin, FaTwitter, FaInstagram, FaGithub
+  FaArrowRight, FaPlay, FaStar, FaQuoteLeft, FaLinkedin, FaTwitter, FaInstagram, FaGithub
 } from 'react-icons/fa';
 
 const LandingPage: React.FC = () => {
@@ -125,8 +124,8 @@ const LandingPage: React.FC = () => {
               </div>
             ))}
           </div>
-      </div>
-    </section>
+        </div>
+      </section>
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] text-white">
@@ -143,11 +142,11 @@ const LandingPage: React.FC = () => {
                   {stat.number}
                 </div>
                 <div className="text-sm md:text-base opacity-90">{stat.label}</div>
+              </div>
+            ))}
           </div>
-        ))}
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-50">
@@ -155,7 +154,7 @@ const LandingPage: React.FC = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--text)] mb-6">
               O que nossos clientes dizem
-      </h2>
+          </h2>
             <p className="text-xl text-[var(--muted)]">
               Empresas que transformaram suas operações com a Sync
             </p>
@@ -195,8 +194,8 @@ const LandingPage: React.FC = () => {
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <FaStar key={i} className="text-yellow-400 w-4 h-4" />
-        ))}
-      </div>
+                ))}
+            </div>
                 
                 <FaQuoteLeft className="text-[var(--primary)] text-2xl mb-4" />
                 
@@ -215,18 +214,18 @@ const LandingPage: React.FC = () => {
                     <div className="text-sm text-[var(--muted)]">{testimonial.role} • {testimonial.company}</div>
                   </div>
                 </div>
+            </div>
+            ))}
           </div>
-        ))}
-          </div>
-      </div>
-    </section>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Pronto para transformar sua produção?
-      </h2>
+          </h2>
           <p className="text-xl mb-8 opacity-90">
             Junte-se a centenas de empresas que já estão aproveitando os benefícios da automação industrial
           </p>
@@ -244,8 +243,8 @@ const LandingPage: React.FC = () => {
               Falar com Especialista
             </button>
           </div>
-      </div>
-    </section>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-[var(--text)] text-white py-16">
@@ -313,11 +312,11 @@ const LandingPage: React.FC = () => {
           
           <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
             <p>&copy; 2024 Sync. Todos os direitos reservados.</p>
+          </div>
         </div>
-      </div>
-    </footer>
-  </div>
-);
+      </footer>
+    </div>
+  );
 };
 
 export default LandingPage;

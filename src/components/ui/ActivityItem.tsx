@@ -12,7 +12,6 @@ interface ActivityItemProps {
 }
 
 const ActivityItem: React.FC<ActivityItemProps> = ({
-  type,
   title,
   description,
   time,

@@ -55,7 +55,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
             <Legend
               verticalAlign="bottom"
               height={36}
-              formatter={(value, entry: any) => (
+              formatter={(value) => (
                 <span style={{ color: '#666' }}>{value}</span>
               )}
             />

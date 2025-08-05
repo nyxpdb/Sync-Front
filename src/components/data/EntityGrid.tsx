@@ -26,7 +26,6 @@ interface EntityGridProps {
   }>;
   columns?: 1 | 2 | 3 | 4 | 5;
   className?: string;
-  showAnimation?: boolean;
 }
 
 const EntityGrid: React.FC<EntityGridProps> = ({
@@ -35,8 +34,7 @@ const EntityGrid: React.FC<EntityGridProps> = ({
   onEntityAction,
   actions = [],
   columns = 4,
-  className = '',
-  showAnimation = true
+  className = ''
 }) => {
   const getGridCols = () => {
     switch (columns) {
@@ -51,7 +49,7 @@ const EntityGrid: React.FC<EntityGridProps> = ({
 
   return (
     <div className={`grid ${getGridCols()} gap-6 ${className}`}>
-      {entities.map((entity, index) => (
+      {entities.map(entity => (
         <EntityCard
           key={entity.id}
           id={typeof entity.id === 'string' ? entity.id : entity.id.toString()}

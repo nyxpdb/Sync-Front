@@ -57,8 +57,8 @@ const Funcionarios: React.FC = () => {
 
   const filteredEmployees = employeesData.filter((emp) => {
     const matchesSearch = emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         emp.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         emp.department.toLowerCase().includes(searchTerm.toLowerCase());
+                          emp.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          emp.department.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDepartment = filterDepartment === "all" || emp.department === filterDepartment;
     const matchesShift = filterShift === "all" || emp.shift === filterShift;
     const matchesStatus = filterStatus === "all" || emp.status === filterStatus;
@@ -71,6 +71,7 @@ const Funcionarios: React.FC = () => {
   const averagePerformance = Math.round(employeesData.reduce((sum, emp) => sum + emp.performance, 0) / employeesData.length);
   const departments = [...new Set(employeesData.map(emp => emp.department))];
   const shifts = [...new Set(employeesData.map(emp => emp.shift))];
+  const statuses = [...new Set(employeesData.map(emp => emp.status))];
 
   // Configuração dos campos do formulário
   const employeeFields: FormFieldConfig[] = [
@@ -150,7 +151,7 @@ const Funcionarios: React.FC = () => {
                 <FaSearch className="text-[var(--primary)] text-lg" />
                 <h2 className="text-lg font-semibold text-[var(--primary)]">Filtros e Busca</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <TextField
                   placeholder="Buscar funcionários..."
                   value={searchTerm}
@@ -183,6 +184,20 @@ const Funcionarios: React.FC = () => {
                     <MenuItem value="all">Todos</MenuItem>
                     {shifts.map(shift => (
                       <MenuItem key={shift} value={shift}>{shift}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl size="small" fullWidth>
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    label="Status"
+                  >
+                    <MenuItem value="all">Todos</MenuItem>
+                    {statuses.map(status => (
+                      <MenuItem key={status} value={status}>{getStatusText(status)}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
